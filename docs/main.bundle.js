@@ -56,7 +56,7 @@ AppRoutingModule = __decorate([
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<main>\n  <section class=\"timer-section\">\n    <div class=\"timer-section_container\">\n      <div class=\"timer-section_container_inner\">\n        <h3  *ngIf=\"!timerSet\">Please set your countdown</h3>\n        <h3  *ngIf=\"timerSet\">Your countdown timer is set to <br/><strong>{{countdownTime.date}}, &nbsp;&nbsp;{{countdownTime.time}}</strong></h3>\n        <div *ngIf=\"!timerSet\" class=\"timer-section_container_content\">\n          <form #inputTimerForm=\"ngForm\">\n            <div class=\"timer-section_container_content_input\">\n              <span [ngClass]=\"submitForm && (!inputTimerForm.controls.hours.touched || !inputTimerForm.controls.hours.valid) ? 'in-valid' : 'valid'\">\n                <input name=\"hours\" type=\"number\" required min=\"0\" placeholder=\"Hours\" ngModel #hours=\"ngModel\">\n              </span>\n              <span [ngClass]=\"submitForm && (!inputTimerForm.controls.minutes.touched || !inputTimerForm.controls.minutes.valid) ? 'in-valid' : 'valid'\">\n                <input name=\"minutes\" type=\"number\" required min=\"0\" max=\"59\" placeholder=\"Minutes\" ngModel #minutes=\"ngModel\">\n              </span>\n              <span [ngClass]=\"submitForm && (!inputTimerForm.controls.seconds.touched || !inputTimerForm.controls.seconds.valid) ? 'in-valid' : 'valid'\">\n                <input name=\"seconds\" type=\"number\" required min=\"0\" max=\"59\" placeholder=\"Seconds\" ngModel #seconds=\"ngModel\">\n              </span>\n            </div>\n          </form>  \n          <div *ngIf=\"submitForm && formError\" class=\"error\">\n            Please enter valid time.\n          </div>\n          <div class=\"timer-section_container_content_action\">\n            <span (click)=\"setTimer(inputTimerForm)\">set timer</span>\n            <span (click)=\"clearTimer(inputTimerForm)\">clear</span>\n          </div>\n        </div>\n        <div *ngIf=\"timerSet\" class=\"timer-section_container_countdown\">\n          <div class=\"timer-section_container_countdown_content\">\n            <div>\n              <span>Hours</span>\n              <span>{{countdownHours}}</span>\n            </div>\n            <div>\n              <span>Minutes</span>\n              <span>{{countdownMinutes}}</span>\n            </div>\n            <div>\n              <span>Seconds</span>\n              <span>{{countdownSeconds}}</span>\n            </div>\n          </div>\n          <div class=\"timer-section_container_countdown_action\">\n            <span (click)=\"resetTimer()\">reset timer</span>\n          </div>\n        </div>\n      </div>  \n    </div>\n    <div *ngIf=\"countdownEnd\" class=\"timer-notify\">\n      <div class=\"bgMask\"></div>\n      <div class=\"notify-message\">\n        <span (click)=\"startNewTimer()\">close</span>\n        <p>You have reached the end of your countdown. Please start a new timer.</p>\n        <button (click)=\"startNewTimer()\">start new timer</button>\n      </div>\n    </div>\n  </section>\n</main>"
+module.exports = "<main>\n  <section class=\"select-game\">\n    <div class=\"select-game_container\">\n      <h4>Please select Game Level</h4>\n      <ul>\n        <li class=\"btn\" [attr.disabled]=\"gameStarted ? true : null\" (click)=\"selectGame('easy')\">Easy (3 X 3)</li>\n        <li class=\"btn\" [attr.disabled]=\"gameStarted ? true : null\" (click)=\"selectGame('medium')\">Medium (4 X 4)</li>\n        <li class=\"btn\" [attr.disabled]=\"gameStarted ? true : null\" (click)=\"selectGame('hard')\">Hard (6 X 6)</li>\n      </ul>  \n    </div>\n    <div class=\"game-grid\">\n      <template [ngIf]=\"gameSelected\">\n        <div *ngIf=\"gameStarted\" class=\"game-timer\">\n          <div class=\"timer\"><span>Timer - </span><span>{{countdownMinutes}}</span> : <span>{{countdownSeconds}}</span></div>\n          <div class=\"score\"><span>Your Score</span> - <span>{{totalScore}} <strong *ngIf=\"highestScore\">/ {{highestScore}}</strong></span></div>\n        </div>\n        <div class=\"game-grid_container\">\n          <div class=\"row-cell\" *ngFor=\"let row of grid.rows | arrayLength; let i = index\">\n            <div class=\"col-cell\" *ngFor=\"let col of grid.cols | arrayLength; let j = index\">\n              <span class=\"cell\" (click)=\"calculateScore(i, j)\" [ngStyle]=\"setBackGroundColor(i, j)\"></span>\n            </div>\n          </div>\n        </div>\n        <div class=\"game-grid_action\" >\n          <span class=\"start btn\" [attr.disabled]=\"gameStarted ? true : null\" (click)=\"startGame()\">start game</span>\n          <span class=\"reset btn\" [attr.disabled]=\"!gameStarted ? true : null\" (click)=\"resetGame()\">reset game</span> \n        </div>\n      </template>  \n    </div>\n    <div *ngIf=\"gameOver\" class=\"timer-notify\">\n      <div class=\"bgMask\"></div>\n      <div class=\"notify-message\">\n        <span (click)=\"resetGame()\">close</span>\n        <p>You have reached the end of your game. Your score is: <strong>{{totalScore}}</strong><br/>Please start a new game.</p>\n        <button (click)=\"resetGame()\">start new game</button>\n      </div>\n    </div>\n  </section>\n</main>"
 
 /***/ }),
 
@@ -68,7 +68,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "main {\n  height: 100%;\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  font-size: 15px;\n  font-family: Lato, 'sans-serif'; }\n  main .timer-section {\n    background: #f5f5f5;\n    width: 100%;\n    height: 100%;\n    position: relative; }\n    main .timer-section .btn, main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content .timer-section_container_content_action span, main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_countdown .timer-section_container_countdown_action span, main .timer-section .timer-notify .notify-message button {\n      display: inline-block;\n      vertical-align: middle;\n      width: 30%;\n      padding: 0.4em;\n      font-size: 1em;\n      font-weight: 500;\n      transition: 500ms all;\n      border-radius: 4px;\n      letter-spacing: 1px;\n      text-transform: uppercase; }\n      main .timer-section .btn:hover, main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content .timer-section_container_content_action span:hover, main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_countdown .timer-section_container_countdown_action span:hover, main .timer-section .timer-notify .notify-message button:hover {\n        font-weight: 600; }\n    main .timer-section .timer-section_container {\n      position: absolute;\n      width: 400px;\n      height: 250px;\n      background: #fff;\n      top: 50%;\n      left: 50%;\n      padding: 1.5em;\n      text-align: center;\n      -webkit-transform: translate(-50%, -50%);\n              transform: translate(-50%, -50%);\n      box-sizing: border-box; }\n      main .timer-section .timer-section_container .timer-section_container_inner h3 {\n        text-transform: uppercase;\n        font-size: 1.2em;\n        font-weight: 600;\n        color: #666;\n        letter-spacing: 1.2px;\n        line-height: 1.5;\n        margin: 0; }\n        main .timer-section .timer-section_container .timer-section_container_inner h3 strong {\n          padding: 0.2em 1em;\n          background: #f5f5f5;\n          color: #333;\n          border-radius: 4px; }\n      main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content {\n        padding: 1.5em 0 0; }\n        main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content .timer-section_container_content_input span {\n          display: inline-block;\n          vertical-align: middle;\n          width: 29%;\n          margin-right: 1%; }\n          main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content .timer-section_container_content_input span:last-child {\n            margin-right: 0; }\n          main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content .timer-section_container_content_input span.in-valid input {\n            border: 1px solid red; }\n          main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content .timer-section_container_content_input span input {\n            height: 2.65em;\n            border-radius: 4px;\n            line-height: 2.65em;\n            color: #333;\n            font-size: 1.2em;\n            border: 1px solid #ddd;\n            width: 100%;\n            text-align: center;\n            outline: none;\n            -webkit-appearance: textfield;\n            -moz-appearance: textfield;\n            appearance: textfield; }\n            main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content .timer-section_container_content_input span input::-webkit-inner-spin-button, main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content .timer-section_container_content_input span input::-webkit-outer-spin-button {\n              -webkit-appearance: none; }\n        main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content .error {\n          font-size: 0.85em;\n          margin: 1em 0 0;\n          transition: 1s all;\n          color: red; }\n        main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content .timer-section_container_content_action {\n          padding: 2em 0; }\n          main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content .timer-section_container_content_action span {\n            cursor: pointer; }\n            main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content .timer-section_container_content_action span:hover {\n              font-weight: 600; }\n            main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content .timer-section_container_content_action span:first-child {\n              margin-right: 5%;\n              background: #009688;\n              color: #fff;\n              border: 1px solid #009688; }\n            main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_content .timer-section_container_content_action span:last-child {\n              background: #f5f5f5;\n              border: 1px solid #ddd;\n              color: #666; }\n      main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_countdown {\n        padding: 1em; }\n        main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_countdown .timer-section_container_countdown_content {\n          text-align: center; }\n          main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_countdown .timer-section_container_countdown_content div {\n            display: inline-block;\n            width: 30%;\n            margin: 1%;\n            vertical-align: middle; }\n            main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_countdown .timer-section_container_countdown_content div span {\n              font-size: 1em; }\n              main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_countdown .timer-section_container_countdown_content div span:first-child {\n                font-weight: 500;\n                color: #666;\n                display: block; }\n              main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_countdown .timer-section_container_countdown_content div span:last-child {\n                display: block;\n                font-size: 3em;\n                font-weight: 600;\n                color: #333; }\n        main .timer-section .timer-section_container .timer-section_container_inner .timer-section_container_countdown .timer-section_container_countdown_action span {\n          width: auto;\n          background: #cb2127;\n          color: #fff;\n          border: 1px solid #cb2127; }\n    main .timer-section .timer-notify {\n      height: 100%;\n      width: 100%;\n      position: relative; }\n      main .timer-section .timer-notify .bgMask {\n        position: fixed;\n        background: rgba(0, 0, 0, 0.4);\n        width: 100%;\n        height: 100%;\n        z-index: 1;\n        left: 0;\n        right: 0;\n        transition: 300ms all; }\n      main .timer-section .timer-notify .notify-message {\n        position: absolute;\n        transition: 300ms all;\n        left: 50%;\n        top: 50%;\n        -webkit-transform: translate(-50%, -50%);\n                transform: translate(-50%, -50%);\n        width: 400px;\n        height: 250px;\n        padding: 1.5em;\n        z-index: 4;\n        background: #fff;\n        text-align: center; }\n        main .timer-section .timer-notify .notify-message span {\n          position: absolute;\n          right: 1em;\n          top: 1em;\n          cursor: pointer; }\n        main .timer-section .timer-notify .notify-message p {\n          font-size: 1.4em;\n          font-weight: 600;\n          line-height: 1.5;\n          text-transform: capitalize;\n          margin: 1em 0; }\n        main .timer-section .timer-notify .notify-message button {\n          background: #cb2127;\n          outline: none;\n          width: auto;\n          color: #fff;\n          border: 1px solid #cb2127; }\n", ""]);
+exports.push([module.i, "main {\n  height: 100%;\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  font-size: 15px;\n  font-family: Lato, 'sans-serif'; }\n  main .select-game {\n    position: absolute;\n    left: 50%;\n    top: 50%;\n    -webkit-transform: translate(-50%, -50%);\n            transform: translate(-50%, -50%); }\n    main .select-game .select-game_container h4 {\n      font-size: 1.4em;\n      text-align: center;\n      color: #666;\n      font-weight: bold; }\n    main .select-game .select-game_container ul {\n      padding: 0;\n      text-align: center;\n      margin: 0; }\n      main .select-game .select-game_container ul li {\n        list-style-type: none;\n        display: inline-block;\n        border-radius: 20px;\n        padding: 10px 20px;\n        color: #fff;\n        font-weight: bold;\n        text-transform: uppercase;\n        cursor: pointer;\n        opacity: 0.8; }\n        main .select-game .select-game_container ul li:hover {\n          opacity: 1; }\n        main .select-game .select-game_container ul li:nth-child(1) {\n          background: #009688; }\n        main .select-game .select-game_container ul li:nth-child(2) {\n          background: #cb2127; }\n        main .select-game .select-game_container ul li:nth-child(3) {\n          background: red; }\n        main .select-game .select-game_container ul li[disabled] {\n          cursor: not-allowed;\n          pointer-events: none;\n          opacity: .65; }\n  main .game-grid {\n    text-align: center;\n    font-weight: bold; }\n    main .game-grid .score, main .game-grid .timer {\n      display: inline-block;\n      margin: 1em 0 0;\n      font-size: 1.2em; }\n    main .game-grid .score {\n      margin-left: 1em; }\n    main .game-grid strong {\n      color: #cb2127; }\n  main .game-grid_container {\n    text-align: center;\n    margin: 1em 0; }\n    main .game-grid_container .col-cell {\n      display: inline-block; }\n    main .game-grid_container .cell {\n      display: inline-block;\n      width: 100px;\n      height: 100px;\n      border-radius: 6px;\n      box-shadow: 1px 2px 4px 1px #666;\n      margin: 4px;\n      cursor: pointer; }\n  main .game-grid_action {\n    text-align: center; }\n    main .game-grid_action .btn, main .game-grid_action .timer-notify .notify-message button, main .timer-notify .notify-message .game-grid_action button {\n      display: inline-block;\n      vertical-align: middle;\n      width: 30%;\n      padding: 0.4em;\n      font-size: 1em;\n      font-weight: 500;\n      transition: 500ms all;\n      border-radius: 20px;\n      letter-spacing: 1px;\n      text-transform: uppercase; }\n      main .game-grid_action .btn:hover, main .game-grid_action .timer-notify .notify-message button:hover, main .timer-notify .notify-message .game-grid_action button:hover {\n        font-weight: 900; }\n      main .game-grid_action .btn.start, main .game-grid_action .timer-notify .notify-message button.start, main .timer-notify .notify-message .game-grid_action button.start {\n        color: #fff;\n        background: #00bcd4; }\n      main .game-grid_action .btn.reset, main .game-grid_action .timer-notify .notify-message button.reset, main .timer-notify .notify-message .game-grid_action button.reset {\n        color: #fff;\n        background: #00bcd4; }\n  main .timer-notify {\n    height: 100%;\n    width: 100%;\n    position: relative; }\n    main .timer-notify .bgMask {\n      position: fixed;\n      background: rgba(0, 0, 0, 0.4);\n      width: 100%;\n      height: 100%;\n      z-index: 1;\n      left: 0;\n      right: 0;\n      transition: 300ms all; }\n    main .timer-notify .notify-message {\n      position: absolute;\n      transition: 300ms all;\n      left: 50%;\n      top: 50%;\n      -webkit-transform: translate(-50%, -50%);\n              transform: translate(-50%, -50%);\n      width: 400px;\n      height: 250px;\n      padding: 1.5em;\n      z-index: 4;\n      background: #fff;\n      text-align: center; }\n      main .timer-notify .notify-message span {\n        position: absolute;\n        right: 1em;\n        top: 1em;\n        cursor: pointer; }\n      main .timer-notify .notify-message p {\n        font-size: 1.4em;\n        font-weight: 600;\n        line-height: 1.5;\n        text-transform: capitalize;\n        margin: 1em 0; }\n      main .timer-notify .notify-message button {\n        background: #cb2127;\n        outline: none;\n        width: auto;\n        color: #fff;\n        border: 1px solid #cb2127; }\n", ""]);
 
 // exports
 
@@ -98,70 +98,103 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var AppComponent = (function () {
-    function AppComponent() {
-        this.countdownTime = {};
+    function AppComponent(ele) {
+        this.ele = ele;
+        this.grid = {};
     }
     AppComponent.prototype.ngOnInit = function () {
-        this.countdownEnd = false;
-        this.submitForm = false;
+        this.gameSelected = false;
+        this.counter = 120;
+        this.totalScore = 0;
     };
-    AppComponent.prototype.setTimer = function (form) {
-        this.submitForm = true;
-        this.formError = false;
-        if (!form.valid
-            ||
-                !form.controls.hours.touched
-            ||
-                !form.controls.minutes.touched
-            ||
-                !form.controls.seconds.touched) {
-            this.formError = true;
+    AppComponent.prototype.selectGame = function (gameType) {
+        var grid = this.getGrid(gameType);
+        this.constructGrid(grid);
+    };
+    AppComponent.prototype.setBackGroundColor = function (row, col) {
+        if (row === this.rowHighlight && col === this.colHighlight) {
+            return { 'background': 'green' };
+        }
+        return { 'background': '#f5f5f5' };
+    };
+    AppComponent.prototype.calculateScore = function (row, col) {
+        if (row === this.rowHighlight && col === this.colHighlight) {
+            this.totalScore += 1;
+        }
+        else {
+            this.totalScore = this.totalScore > 0 ? this.totalScore - 1 : 0;
+        }
+        console.log('Score: ', this.totalScore);
+    };
+    AppComponent.prototype.startGame = function () {
+        this.gameStarted = true;
+        this._setCountdownTimer();
+    };
+    AppComponent.prototype.resetGame = function () {
+        this.totalScore = 0;
+        this.gameStarted = false;
+        this.gameSelected = false;
+        this.counter = 120;
+        this.gameOver = false;
+    };
+    AppComponent.prototype.highlightGrid = function () {
+        this.rowHighlight = this.getRandomNumber(0, this.grid.cols);
+        this.colHighlight = this.getRandomNumber(0, this.grid.cols);
+        console.log('Row: ' + this.rowHighlight + ' Col: ' + this.colHighlight);
+    };
+    AppComponent.prototype.getRandomNumber = function (min, max) {
+        if (min === void 0) { min = 0; }
+        return Math.floor(Math.random() * (max - min)) + min;
+    };
+    AppComponent.prototype.constructGrid = function (grid) {
+        if (grid === void 0) { grid = {}; }
+        if (!grid) {
+            this.gameSelected = false;
             return;
         }
-        if (form.value.hours < 0
-            ||
-                form.value.minutes < 0 || form.value.minutes > 59
-            ||
-                form.value.seconds < 0 || form.value.seconds > 59) {
-            this.formError = true;
-            return;
-        }
-        this._setCountdownTimer(form.value.hours, form.value.minutes, form.value.seconds);
-        this.timerSet = true;
+        this.gameSelected = true;
+        this.grid = grid;
+        this.gameStarted = false;
     };
-    AppComponent.prototype._setCountdownTimer = function (hrs, mins, secs) {
-        if (hrs === void 0) { hrs = 0; }
-        if (mins === void 0) { mins = 0; }
-        if (secs === void 0) { secs = 0; }
-        var currentTime = new Date();
-        var currentInputTime = new Date();
-        currentInputTime.setHours(currentInputTime.getHours() + hrs);
-        currentInputTime.setMinutes(currentInputTime.getMinutes() + mins);
-        currentInputTime.setSeconds(currentInputTime.getSeconds() + secs);
-        this.countdownTime['date'] = (new Date(currentInputTime)).toDateString();
-        this.countdownTime['time'] = (new Date(currentInputTime)).toLocaleTimeString();
-        var timeDiff = Math.abs(currentInputTime - currentTime);
-        timeDiff = timeDiff / 1000;
+    AppComponent.prototype.getGrid = function (gameType) {
+        switch (gameType) {
+            case 'easy':
+                return { rows: 3, cols: 3 };
+            case 'medium':
+                return { rows: 4, cols: 4 };
+            case 'hard':
+                return { rows: 6, cols: 6 };
+        }
+    };
+    AppComponent.prototype._setCountdownTimer = function () {
+        var _this = this;
         var that = this;
-        this.timerObservable = __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__["Observable"].timer(1000, 1000).take(timeDiff)
-            .map(function () { return timeDiff -= 1; })
+        this._timerObservable$ = __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__["Observable"].timer(0, 1000).take(this.counter)
+            .map(function () { return --_this.counter; })
             .subscribe(function (res) {
-            if (res <= 0) {
+            if (res < 0) {
                 that._notifyUser();
             }
             else {
+                that.highlightGrid();
                 that._showCountdown(res);
             }
         });
     };
     AppComponent.prototype._notifyUser = function () {
-        this.countdownHours = 0;
-        this.countdownMinutes = 0;
-        this.countdownSeconds = 0;
-        this.countdownEnd = true;
+        this.gameOver = true;
+        if (localStorage.getItem('highestScore')) {
+            this.highestScore = parseInt(localStorage.getItem('highestScore'), 10);
+            if (this.highestScore < this.totalScore) {
+                this.highestScore = this.totalScore;
+            }
+            localStorage.setItem('highestScore', '' + this.highestScore);
+        }
+        else {
+            localStorage.setItem('highestScore', '' + this.totalScore);
+        }
     };
     AppComponent.prototype._showCountdown = function (time) {
-        this.countdownHours = this._calHours(time);
         this.countdownMinutes = this._calMinutes(time);
         this.countdownSeconds = this._calSeconds(time);
     };
@@ -171,28 +204,8 @@ var AppComponent = (function () {
     AppComponent.prototype._calMinutes = function (ticks) {
         return this._pad((Math.floor(ticks / 60)) % 60);
     };
-    AppComponent.prototype._calHours = function (ticks) {
-        return this._pad(Math.floor(((ticks / 60) / 60) % 60));
-    };
-    AppComponent.prototype._calDays = function (ticks) {
-        return this._pad(Math.floor(((ticks / 60) / 60) / 24));
-    };
     AppComponent.prototype._pad = function (digit) {
         return digit <= 9 ? '0' + digit : digit;
-    };
-    AppComponent.prototype.startNewTimer = function () {
-        this.resetTimer();
-        this.countdownEnd = false;
-    };
-    AppComponent.prototype.resetTimer = function () {
-        this.timerSet = false;
-        this.submitForm = false;
-        if (this.timerObservable) {
-            this.timerObservable.unsubscribe();
-        }
-    };
-    AppComponent.prototype.clearTimer = function (form) {
-        form.resetForm();
     };
     return AppComponent;
 }());
@@ -202,9 +215,10 @@ AppComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/app.component.html"),
         styles: [__webpack_require__("../../../../../src/app/app.component.scss")]
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */]) === "function" && _a || Object])
 ], AppComponent);
 
+var _a;
 //# sourceMappingURL=app.component.js.map
 
 /***/ }),
@@ -219,12 +233,14 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_routing_module__ = __webpack_require__("../../../../../src/app/app-routing.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pipes_array_construct_pipe__ = __webpack_require__("../../../../../src/app/pipes/array.construct.pipe.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -244,6 +260,7 @@ AppModule = __decorate([
         ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */],
+            __WEBPACK_IMPORTED_MODULE_5__pipes_array_construct_pipe__["a" /* ArrayConstruct */]
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]],
         providers: []
@@ -251,6 +268,39 @@ AppModule = __decorate([
 ], AppModule);
 
 //# sourceMappingURL=app.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/pipes/array.construct.pipe.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ArrayConstruct; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var ArrayConstruct = (function () {
+    function ArrayConstruct() {
+    }
+    ArrayConstruct.prototype.transform = function (value, args) {
+        var res = [];
+        for (var i = 0; i < value; i++) {
+            res.push(i);
+        }
+        return res;
+    };
+    return ArrayConstruct;
+}());
+ArrayConstruct = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["X" /* Pipe */])({ name: 'arrayLength' })
+], ArrayConstruct);
+
+//# sourceMappingURL=array.construct.pipe.js.map
 
 /***/ }),
 
