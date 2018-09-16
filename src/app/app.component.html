@@ -27,13 +27,13 @@
         </div>
       </template>  
     </div>
-    <div *ngIf="gameOver" class="timer-notify">
-      <div class="bgMask"></div>
-      <div class="notify-message">
-        <span (click)="resetGame()">close</span>
-        <p>You have reached the end of your game. Your score is: <strong>{{totalScore}}</strong><br/>Please start a new game.</p>
-        <button (click)="resetGame()">start new game</button>
-      </div>
-    </div>
   </section>
+  <div *ngIf="gameOver" class="timer-notify">
+    <div class="bgMask"></div>
+    <div class="notify-message">
+      <span (click)="resetGame()">close</span>
+      <p>You have reached the end of your game. Your score is: <strong>{{totalScore}}</strong><br/>Please start a new game.</p>
+      <button (click)="resetGame()">start new game</button>
+    </div>
+  </div>
 </main>
