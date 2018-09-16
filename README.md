@@ -1,4 +1,4 @@
-# Dashboard
+# Installation
 
 ### you need to install angular cli, if already installed please ignore the below step
 sudo npm install -g @angular/cli
