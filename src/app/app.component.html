@@ -1,0 +1,39 @@
+<main>
+  <section class="select-game">
+    <div class="select-game_container">
+      <h4>Please select Game Level</h4>
+      <ul>
+        <li class="btn" [attr.disabled]="gameStarted ? true : null" (click)="selectGame('easy')">Easy (3 X 3)</li>
+        <li class="btn" [attr.disabled]="gameStarted ? true : null" (click)="selectGame('medium')">Medium (4 X 4)</li>
+        <li class="btn" [attr.disabled]="gameStarted ? true : null" (click)="selectGame('hard')">Hard (6 X 6)</li>
+      </ul>  
+    </div>
+    <div class="game-grid">
+      <template [ngIf]="gameSelected">
+        <div *ngIf="gameStarted" class="game-timer">
+          <div class="timer"><span>Timer - </span><span>{{countdownMinutes}}</span> : <span>{{countdownSeconds}}</span></div>
+          <div class="score"><span>Your Score</span> - <span>{{totalScore}} <strong *ngIf="highestScore">/ {{highestScore}}</strong></span></div>
+        </div>
+        <div class="game-grid_container">
+          <div class="row-cell" *ngFor="let row of grid.rows | arrayLength; let i = index">
+            <div class="col-cell" *ngFor="let col of grid.cols | arrayLength; let j = index">
+              <span class="cell" (click)="calculateScore(i, j)" [ngStyle]="setBackGroundColor(i, j)"></span>
+            </div>
+          </div>
+        </div>
+        <div class="game-grid_action" >
+          <span class="start btn" [attr.disabled]="gameStarted ? true : null" (click)="startGame()">start game</span>
+          <span class="reset btn" [attr.disabled]="!gameStarted ? true : null" (click)="resetGame()">reset game</span> 
+        </div>
+      </template>  
+    </div>
+    <div *ngIf="gameOver" class="timer-notify">
+      <div class="bgMask"></div>
+      <div class="notify-message">
+        <span (click)="resetGame()">close</span>
+        <p>You have reached the end of your game. Your score is: <strong>{{totalScore}}</strong><br/>Please start a new game.</p>
+        <button (click)="resetGame()">start new game</button>
+      </div>
+    </div>
+  </section>
+</main>

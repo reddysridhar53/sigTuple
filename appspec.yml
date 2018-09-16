@@ -1,0 +1,12 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /www/src/
+hooks:
+  ApplicationStop:
+    - location: deregister_from_elb.sh
+    - location: stop_nginx.sh
+  ApplicationStart:
+    - location: start_nginx.sh
+    - location: register_with_elb.sh
