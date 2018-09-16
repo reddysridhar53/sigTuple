@@ -112,7 +112,7 @@ export class AppComponent implements OnInit, OnDestroy {
     .map( () => --this.counter)
     .subscribe(
       res => {
-      if (res < 0) {
+      if (res <= 0) {
         that._notifyUser();
       } else {
         that.highlightGrid();

@@ -178,7 +178,7 @@ var AppComponent = (function () {
         this.sub = __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__["Observable"].timer(0, 1000).take(this.counter)
             .map(function () { return --_this.counter; })
             .subscribe(function (res) {
-            if (res < 0) {
+            if (res <= 0) {
                 that._notifyUser();
             }
             else {
