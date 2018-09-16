@@ -7,7 +7,7 @@
 
 # dependencies
 /node_modules
-
+index.html
 # IDEs and editors
 /.idea
 .idea
