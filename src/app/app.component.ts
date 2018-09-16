@@ -1,12 +1,13 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs/Rx';
+import { TimerObservable } from 'rxjs/Observable/TimerObservable';
 
 @Component({
   selector: 'app-timer',
   templateUrl: './app.component.html',
   styleUrls : ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   private countdownMinutes: number;
   private countdownSeconds: number;
@@ -22,7 +23,8 @@ export class AppComponent implements OnInit {
   private counter: number;
   private highestScore: number;
   private gameOver: boolean;
-  private _timerObservable$: any;
+  private _timerObservable$: TimerObservable;
+  private sub: Subscription;
 
   constructor(private ele: ElementRef) {}
 
@@ -64,6 +66,13 @@ export class AppComponent implements OnInit {
     this.gameSelected = false;
     this.counter = 120;
     this.gameOver = false;
+    if (this.sub && typeof this.sub.unsubscribe === 'function') {
+      this.sub.unsubscribe();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.resetGame();
   }
 
   highlightGrid(): void {
@@ -99,8 +108,8 @@ export class AppComponent implements OnInit {
 
   private _setCountdownTimer(): void {
     const that = this;
-    this._timerObservable$ = Observable.timer(0, 1000).take(this.counter)
-    .map(() => --this.counter)
+    this.sub = Observable.timer(0, 1000).take(this.counter)
+    .map( () => --this.counter)
     .subscribe(
       res => {
       if (res < 0) {
