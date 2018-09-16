@@ -136,6 +136,12 @@ var AppComponent = (function () {
         this.gameSelected = false;
         this.counter = 120;
         this.gameOver = false;
+        if (this.sub && typeof this.sub.unsubscribe === 'function') {
+            this.sub.unsubscribe();
+        }
+    };
+    AppComponent.prototype.ngOnDestroy = function () {
+        this.resetGame();
     };
     AppComponent.prototype.highlightGrid = function () {
         this.rowHighlight = this.getRandomNumber(0, this.grid.cols);
@@ -169,7 +175,7 @@ var AppComponent = (function () {
     AppComponent.prototype._setCountdownTimer = function () {
         var _this = this;
         var that = this;
-        this._timerObservable$ = __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__["Observable"].timer(0, 1000).take(this.counter)
+        this.sub = __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__["Observable"].timer(0, 1000).take(this.counter)
             .map(function () { return --_this.counter; })
             .subscribe(function (res) {
             if (res < 0) {
