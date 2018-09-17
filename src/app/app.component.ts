@@ -93,6 +93,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.gameSelected = true;
     this.grid = grid;
     this.gameStarted = false;
+    this.rowHighlight = -1;
+    this.colHighlight = -1;
   }
 
   getGrid(gameType: string): any {

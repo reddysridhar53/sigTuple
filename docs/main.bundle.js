@@ -161,6 +161,8 @@ var AppComponent = (function () {
         this.gameSelected = true;
         this.grid = grid;
         this.gameStarted = false;
+        this.rowHighlight = -1;
+        this.colHighlight = -1;
     };
     AppComponent.prototype.getGrid = function (gameType) {
         switch (gameType) {
